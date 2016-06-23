@@ -167,9 +167,9 @@ Project files .proj, are stored in directories that hold all the information abo
 We are going to be writing in C# therefore the extension is .cs. These files hold the actual code that you’ll tippy tappy type!
 There are other files, but we’ll go over them if and when required.
 
-### Code
+### Code Basics
 We’re going to start off using notepad and the command line, then when it has become significantly complicated, we’ll move onto using Visual Studio
-#### Hello World
+#### HelloWorld.cs
 ```
 namespace Sse.EnergySystems.Sandbox
 {
@@ -179,8 +179,127 @@ namespace Sse.EnergySystems.Sandbox
   {
     static void Main(string[] args)
     {
-      Console.Out.WriteLine("test");
+      Console.Out.WriteLine("Hello World!");
     }
   }
 }
 ```
+Type the above into a texteditor and save it as HelloWorld.cs in a directory. Make this a new directory with nothing in it.
+#### Compile and execute
+In a command prompt (visual studio command prompt or one with csc.exe in the path) type the following.
+
+```csc HelloWorld.cs```
+
+A HelloWorld.exe file should be created. Type in
+
+```HelloWorld.exe```
+
+Hello World! should appear in the command prompt.
+
+Now create a git repository in this directory and add this file to the repository and commit the changes.
+
+### Build
+We are going to use make to control our build process to start off with. Visual Studio can do all this for us (using a much more complex XML based build system, but then we wouldn't learn anything if we allowed Visual Studio to do everything for us)
+You can download GNU make for windows. Or if you have visual studio you should already have nmake installed.
+#### makefile
+Create a file called ```makefile``` in the same directory as HelloWorld.cs with the following text in it:
+```
+all:
+  csc HelloWorld.cs
+  
+clean:
+  del *.exe
+```
+Please note the csc and del lines should be indented (I've chosen double space).
+
+In the command prompt type ```nmake clean```
+
+The executable file should get deleted. Now type
+
+```nmake```
+
+The executable HelloWorld.exe should be recreated. **Note** the first label that appears in the file is the one that gets executed by default. (google makefile to learn more about it).
+You can also type
+
+```nmake all```
+
+To explicitly execute the all label
+
+Briefly, makefiles are dead simple, they are made up of
+
+```
+label: dependecyLabel
+  command
+```
+
+Where the commands are indented and dependencyLabel points to another label in the file. As we go on we'll build on this makefile.
+### Hello World 2
+Next we're going to create a simple windows forms application.
+
+Make sure everything is committed to the git repository and that there is nothing outstanding.
+
+Branch a development branch and checkout so that the new development branch is the active branch
+
+Update HelloWorld.cs with the following:
+
+```
+namespace Sse.EnergySystems.Sandbox
+{
+  using System;
+  using System.Windows.Forms;
+  
+  public class HelloWorld : Form
+  {
+    [STAThread]
+    static void Main(string[] args)
+    {
+      Application.Run(new HelloWorld());
+    }
+  }
+}
+```
+
+We've added a new line ```using System.Windows.Forms;```. This line adds a reference to the .Net Windows Forms assembly which is required for windows forms applications (obviously).
+Next is the addition of ``` : Form``` to the end of the line ```public class HelloWorld : Form```. This changes the class to say that the type HelloWorld *inherits from* Form. Or to put it another way **HelloWorld is a Form**.
+
+```[STAThread]``` tells .Net the threading model to use for this application. Google it if you want, it's not desparately important.
+
+Finally ```Console.out...``` has been changed to ```Application.Run(new HellowWorld());```. This tells .Net to create a new HelloWorld instance and do some magic behind the scenes.
+
+Save the file, type ```nmake```, then type ```HelloWorld.exe``` and up should pop a new blank window.
+
+#### Lets add a button
+Update HelloWorld.cs
+
+```
+namespace Sse.EnergySystems.Sandbox
+{
+  using System;
+  using System.Windows.Forms;
+  
+  public class HelloWorld : Form
+  {
+    private Button button;
+  
+    public HelloWorld()
+	{
+	  BuildForm();
+	}
+  
+    [STAThread]
+    static void Main(string[] args)
+    {
+      Application.Run(new HelloWorld());
+    }
+	
+	public void BuildForm()
+	{
+	  button = new Button();
+	  button.Text = "Hello World!";
+	  Controls.Add(button);
+	}
+  }
+}
+```
+
+Things to note: ```public HelloWorld() {...}``` This is a class constructor and is executed when a new instance of the type is created via the ```new``` keyword. As this has no parameters (nothing inside the ```()```) it is classed as the *default* constructor.
