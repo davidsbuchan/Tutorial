@@ -303,3 +303,47 @@ namespace Sse.EnergySystems.Sandbox
 ```
 
 Things to note: ```public HelloWorld() {...}``` This is a class constructor and is executed when a new instance of the type is created via the ```new``` keyword. As this has no parameters (nothing inside the ```()```) it is classed as the *default* constructor.
+
+#### Make the button do something
+Actions in windows forms are generally done via events.
+
+```
+namespace Sse.EnergySystems.Sandbox
+{
+  using System;
+  using System.Windows.Forms;
+  
+  public class HelloWorld : Form
+  {
+    private Button button;
+  
+    public HelloWorld()
+	{
+	  BuildForm();
+	}
+  
+    [STAThread]
+    static void Main(string[] args)
+    {
+      Application.Run(new HelloWorld());
+    }
+	
+	public void BuildForm()
+	{
+	  button = new Button();
+	  button.Text = "Hello World!";
+	  
+	  button.Click += ButtonClickMethod;
+	  
+	  Controls.Add(button);
+	}
+	
+	private void ButtonClickMethod(object sender, System.EventArgs e)
+	{
+	  MessageBox.Show("Hello World!");
+	}
+  }
+}
+```
+
+Things to note. ```button.Click += ButtonClickMethod;``` basically means when the Click event happens, execute the method called ButtonClickMethod. ButtonClickMethod has to have the same number and types of parameters that the Click event expects.
