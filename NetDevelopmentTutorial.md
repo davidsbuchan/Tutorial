@@ -130,7 +130,16 @@ Use this command to merge changes to another branch, but not to commit immediate
 15.	Open the file in notepad
 
 ### Differences
-fdsf
+Reading the differences between versions of files is an important skill. 
+
+```git diff [filename]```
+
+This command shows the difference between the filename listed and the latest version in the current branch of the repository
+This may be difficult to read and understand but it is in a standard format (used by the linux patch command), so take time to attempt to understand it.
+
+```git diff [commit] [commit]```
+
+The [commit] options are the identifiers for 2 different commits. Get these via the git log command
 
 ### Conflicts
 Fdsafds
