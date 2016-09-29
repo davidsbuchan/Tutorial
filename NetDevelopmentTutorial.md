@@ -39,7 +39,7 @@ These are files that are currently tracked, and have been changed but have not b
 This command is used to commit any changes to the repository in whatever branch you are in (branches will be described later). 
 If you don’t know VI (what's wrong with you), it might be wise to either change the default editor or use the commit command in the following way:
 
-```git commit -m '[place comment here]'```
+```git commit -m "[place comment here]"```
 
 This will perform a commit on all the staged changes and it will apply it to the repository.
 
